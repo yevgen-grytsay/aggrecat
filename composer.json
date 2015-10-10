@@ -12,6 +12,13 @@
   "autoload": {
     "psr-4": {
       "YevgenGrytsay\\Aggrecat\\": "src/"
-    }
+    },
+    "classmap": [
+      "tests"
+    ]
+  },
+  "require-dev": {
+    "php": "~5.3",
+    "phpunit/phpunit": "~4.8"
   }
 }
