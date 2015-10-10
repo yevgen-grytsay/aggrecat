@@ -19,6 +19,6 @@ class CommonAggregate extends AggregateAbstract
     public function item($item)
     {
         $value = $this->accessor->getValue($item);
-        call_user_func_array($this->aggregateFunction, [$this->result, $value]);
+        $this->result = call_user_func_array($this->aggregateFunction, [$this->result, $value]);
     }
 }

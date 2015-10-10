@@ -8,10 +8,10 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 
-$dealerAccess = new \YevgenGrytsay\Aggrecat\ArrayFieldAccess('dealer');
-$partitionByDealer = new \YevgenGrytsay\Aggrecat\PartitionByField($dealerAccess);
+$dealerAccess = new \YevgenGrytsay\Aggrecat\ConstantFieldArrayAccess('dealer');
+$partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerAccess);
 
-$priceAccess = new \YevgenGrytsay\Aggrecat\ArrayFieldAccess('price');
+$priceAccess = new \YevgenGrytsay\Aggrecat\ConstantFieldArrayAccess('price');
 $sum = new \YevgenGrytsay\Aggrecat\SumFunction();
 $priceAggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($priceAccess, $sum, $partitionByDealer, 0);
 

@@ -43,7 +43,7 @@ class PartitionAggregate extends AggregateAbstract
         $value = $this->accessor->getValue($item);
         $key = $this->partition->partition($item);
         $this->initPartition($key);
-        call_user_func_array($this->aggregateFunction, [&$this->result[$key], $value]);
+        $this->result[$key] = call_user_func_array($this->aggregateFunction, [$this->result[$key], $value]);
     }
 
     /**

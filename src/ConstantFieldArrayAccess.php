@@ -9,7 +9,7 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
-class ArrayFieldAccess implements AccessInterface
+class ConstantFieldArrayAccess implements AccessInterface
 {
     /**
      * @var

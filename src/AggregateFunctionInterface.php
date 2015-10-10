@@ -17,5 +17,5 @@ interface AggregateFunctionInterface
      *
      * @return mixed
      */
-    public function __invoke(&$carry, $value);
+    public function __invoke($carry, $value);
 }

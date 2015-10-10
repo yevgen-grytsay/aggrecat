@@ -56,7 +56,7 @@ class PartitionAggregateTest extends PHPUnit_Framework_TestCase
     /**
      * @param $key
      *
-     * @return \YevgenGrytsay\Aggrecat\PartitionByField
+     * @return \YevgenGrytsay\Aggrecat\ConstantFieldPartition
      */
     protected function createPartition($key = null)
     {

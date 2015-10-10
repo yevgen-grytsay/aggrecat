@@ -17,8 +17,10 @@ class SumFunction implements AggregateFunctionInterface
      *
      * @return mixed
      */
-    public function __invoke(&$carry, $value)
+    public function __invoke($carry, $value)
     {
         $carry += $value;
+
+        return $carry;
     }
 }

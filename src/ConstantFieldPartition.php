@@ -9,7 +9,7 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
-class PartitionByField implements PartitionInterface
+class ConstantFieldPartition implements PartitionInterface
 {
     /**
      * @var AccessInterface

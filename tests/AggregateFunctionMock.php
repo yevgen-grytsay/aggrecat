@@ -18,7 +18,7 @@ class AggregateFunctionMock implements \YevgenGrytsay\Aggrecat\AggregateFunction
      *
      * @return mixed
      */
-    public function __invoke(&$carry, $value)
+    public function __invoke($carry, $value)
     {
         $this->valueHistory[] = $value;
     }
