@@ -1,0 +1,17 @@
+{
+  "name": "yevgen-grytsay/aggrecat",
+  "description": "Apply aggregation function to a collection.",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "YevgenGrytsay\\Aggrecat\\": "src/"
+    }
+  }
+}
