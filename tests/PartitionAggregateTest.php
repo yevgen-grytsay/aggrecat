@@ -8,49 +8,46 @@
  */
 class PartitionAggregateTest extends PHPUnit_Framework_TestCase
 {
-    public function testShouldCallAggregateFunctionWithProperArguments()
+    public function testShouldCreateAggregateOnce()
     {
-        $value = 'value';
-        $field = $this->createFieldAccessorStub($value);
+        $factory = $this->createFactoryWithAggregate($this->getMock(\YevgenGrytsay\Aggrecat\AggregateInterface::class));
         $partition = $this->createPartition();
-        $function = new AggregateFunctionMock();
+        $aggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($factory, $partition);
 
-        $agg = new \YevgenGrytsay\Aggrecat\PartitionAggregate($field, $function, $partition, 0);
-        $agg->item([]);
-
-        $valueList = $function->getValueHistory();
-        $this->assertEquals([$value], $valueList);
+        $aggregate->item([]);
+        $aggregate->item([]);
     }
 
-    public function testAggregateResultShouldContainProperKeyAndValue()
+    public function testShouldCallNestedAggregate()
     {
-        $value = 'value';
-        $key = 'key';
-        $field = $this->createFieldAccessorStub($value);
-        $partition = $this->createPartition($key);
-        $function = new ConcatAggregateFunction();
+        $value = new stdClass();
+        $nestedAggregate = $this->getMock(\YevgenGrytsay\Aggrecat\AggregateInterface::class);
+        $nestedAggregate->expects($this->once())
+            ->method('item')
+            ->with($value);
 
-        $agg = new \YevgenGrytsay\Aggrecat\PartitionAggregate($field, $function, $partition, '');
-        $agg->item([]);
+        $factory = $this->createFactoryWithAggregate($nestedAggregate);
+        $partition = $this->createPartition();
+        $aggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($factory, $partition);
 
-        $result = $agg->getResult();
-        $this->assertEquals([$key => $value], $result);
+        $aggregate->item($value);
     }
 
     /**
-     * @param $value
+     * @param $nestedAggregate
      *
-     * @return \YevgenGrytsay\Aggrecat\ConstantAccessInterface
+     * @return \YevgenGrytsay\Aggrecat\AggregateFactory
      */
-    protected function createFieldAccessorStub($value)
+    protected function createFactoryWithAggregate($nestedAggregate)
     {
-        $field = $this->getMockBuilder('\YevgenGrytsay\Aggrecat\ConstantAccessInterface')
+        $factory = $this->getMockBuilder(\YevgenGrytsay\Aggrecat\AggregateFactory::class)
+            ->disableOriginalConstructor()
             ->getMock();
-        $field->expects($this->any())
-            ->method('getValue')
-            ->willReturn($value);
+        $factory->expects($this->once())
+            ->method('create')
+            ->willReturn($nestedAggregate);
 
-        return $field;
+        return $factory;
     }
 
     /**
@@ -58,7 +55,7 @@ class PartitionAggregateTest extends PHPUnit_Framework_TestCase
      *
      * @return \YevgenGrytsay\Aggrecat\ConstantFieldPartition
      */
-    protected function createPartition($key = null)
+    protected function createPartition($key = 'key')
     {
         $partition = $this->getMock(\YevgenGrytsay\Aggrecat\PartitionInterface::class);
         $partition->expects($this->any())

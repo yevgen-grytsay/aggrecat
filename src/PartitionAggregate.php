@@ -9,28 +9,30 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
-class PartitionAggregate extends AggregateAbstract
+class PartitionAggregate implements AggregateInterface
 {
     /**
      * @var PartitionInterface
      */
-    protected $partition;
-    /**
-     * @var
-     */
-    private $initValue;
+    private $partition;
 
     /**
-     * @param ConstantAccessInterface $accessor
-     * @param AggregateFunctionInterface $aggregateFunction
-     * @param PartitionInterface $partition
-     * @param $initValue
+     * @var AggregateInterface[]
      */
-    public function __construct(ConstantAccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, PartitionInterface $partition, $initValue)
+    private $nested = [];
+    /**
+     * @var AggregateFactory
+     */
+    private $factory;
+
+    /**
+     * @param AggregateFactory $factory
+     * @param PartitionInterface $partition
+     */
+    public function __construct(AggregateFactory $factory, PartitionInterface $partition)
     {
-        parent::__construct($accessor, $aggregateFunction, []);
-        $this->initValue = $initValue;
         $this->partition = $partition;
+        $this->factory = $factory;
     }
 
     /**
@@ -40,10 +42,9 @@ class PartitionAggregate extends AggregateAbstract
      */
     public function item($item)
     {
-        $value = $this->accessor->getValue($item);
         $key = $this->partition->partition($item);
         $this->initPartition($key);
-        $this->result[$key] = call_user_func_array($this->aggregateFunction, [$this->result[$key], $value]);
+        $this->nested[$key]->item($item);
     }
 
     /**
@@ -51,8 +52,18 @@ class PartitionAggregate extends AggregateAbstract
      */
     protected function initPartition($key)
     {
-        if (!array_key_exists($key, $this->result)) {
-            $this->result[$key] = $this->initValue;
+        if (!array_key_exists($key, $this->nested)) {
+            $this->nested[$key] = $this->factory->create();
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return array_map(function(AggregateInterface $item) {
+            return $item->getResult();
+        }, $this->nested);
     }
 }

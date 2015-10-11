@@ -13,8 +13,9 @@ $partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerA
 
 $priceAccess = new \YevgenGrytsay\Aggrecat\ConstantFieldAccess('price');
 $sum = new \YevgenGrytsay\Aggrecat\SumFunction();
-$priceAggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($priceAccess, $sum, $partitionByDealer, 0);
-
+$sumAggregate = new  \YevgenGrytsay\Aggrecat\CommonAggregate($priceAccess, $sum, 0);
+$factory = new \YevgenGrytsay\Aggrecat\AggregateFactory($sumAggregate);
+$priceAggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($factory, $partitionByDealer);
 
 $data = new ArrayObject(array(
     array('id' => 1, 'dealer' => 4, 'name' => 'Rainbow', 'price' => 10),
