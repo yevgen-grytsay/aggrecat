@@ -12,16 +12,16 @@ namespace YevgenGrytsay\Aggrecat;
 class ConstantFieldPartition implements PartitionInterface
 {
     /**
-     * @var AccessInterface
+     * @var ConstantAccessInterface
      */
     protected $accessor;
 
     /**
      * PartitionByField constructor.
      *
-     * @param AccessInterface $accessor
+     * @param ConstantAccessInterface $accessor
      */
-    public function __construct(AccessInterface $accessor)
+    public function __construct(ConstantAccessInterface $accessor)
     {
         $this->accessor = $accessor;
     }

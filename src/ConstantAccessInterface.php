@@ -9,7 +9,7 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
-interface AccessInterface
+interface ConstantAccessInterface
 {
     /**
      * @param $objectOrArray

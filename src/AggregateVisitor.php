@@ -12,7 +12,7 @@ namespace YevgenGrytsay\Aggrecat;
 class AggregateVisitor implements VisitorInterface
 {
     /**
-     * @var \AggregateInterface
+     * @var AggregateInterface
      */
     protected $aggregate;
 

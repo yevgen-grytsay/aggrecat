@@ -21,12 +21,12 @@ class PartitionAggregate extends AggregateAbstract
     private $initValue;
 
     /**
-     * @param AccessInterface $accessor
+     * @param ConstantAccessInterface $accessor
      * @param AggregateFunctionInterface $aggregateFunction
      * @param PartitionInterface $partition
      * @param $initValue
      */
-    public function __construct(AccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, PartitionInterface $partition, $initValue)
+    public function __construct(ConstantAccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, PartitionInterface $partition, $initValue)
     {
         parent::__construct($accessor, $aggregateFunction, []);
         $this->initValue = $initValue;

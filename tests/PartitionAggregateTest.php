@@ -8,7 +8,7 @@
  */
 class PartitionAggregateTest extends PHPUnit_Framework_TestCase
 {
-    public function testShouldCallAggregateFunctionWithProperValue()
+    public function testShouldCallAggregateFunctionWithProperArguments()
     {
         $value = 'value';
         $field = $this->createFieldAccessorStub($value);
@@ -40,11 +40,11 @@ class PartitionAggregateTest extends PHPUnit_Framework_TestCase
     /**
      * @param $value
      *
-     * @return \YevgenGrytsay\Aggrecat\AccessInterface
+     * @return \YevgenGrytsay\Aggrecat\ConstantAccessInterface
      */
     protected function createFieldAccessorStub($value)
     {
-        $field = $this->getMockBuilder('\YevgenGrytsay\Aggrecat\AccessInterface')
+        $field = $this->getMockBuilder('\YevgenGrytsay\Aggrecat\ConstantAccessInterface')
             ->getMock();
         $field->expects($this->any())
             ->method('getValue')

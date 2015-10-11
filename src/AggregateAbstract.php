@@ -12,7 +12,7 @@ namespace YevgenGrytsay\Aggrecat;
 abstract class AggregateAbstract implements AggregateInterface
 {
     /**
-     * @var AccessInterface
+     * @var ConstantAccessInterface
      */
     protected $accessor;
     /**
@@ -27,11 +27,11 @@ abstract class AggregateAbstract implements AggregateInterface
     /**
      * DefaultAggregate constructor.
      *
-     * @param AccessInterface $accessor
+     * @param ConstantAccessInterface $accessor
      * @param AggregateFunctionInterface $aggregateFunction
      * @param $initValue
      */
-    public function __construct(AccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, $initValue)
+    public function __construct(ConstantAccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, $initValue)
     {
         $this->accessor = $accessor;
         $this->aggregateFunction = $aggregateFunction;
