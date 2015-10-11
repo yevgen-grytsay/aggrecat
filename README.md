@@ -1,5 +1,5 @@
 # aggrecat
-Extensible data aggregation library.
+Small and extensible data aggregation library.
 
 ## Short usage example
 Calculate sum of "price" field values and group by "dealer" field.
@@ -39,4 +39,5 @@ array(2) {
 
 ## TODO:
 * Add adapter for Symfony Property Access.
+* Create builder to hide annoyingly long initialization behind usable interface.
 * Review Visitor interface and usage.
