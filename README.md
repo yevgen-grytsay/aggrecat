@@ -1,5 +1,5 @@
 # aggrecat
-An aggregation library.
+Extensible data aggregation library.
 
 ## Short usage example
 Calculate sum of "price" field values and group by "dealer" field.
