@@ -6,12 +6,12 @@
  * Date: 11.10.2015
  * Time: 11:15
  */
-class CommonAggregateTest extends PHPUnit_Framework_TestCase
+class ReduceAggregateTest extends PHPUnit_Framework_TestCase
 {
     public function testShouldCarry()
     {
         $accessor = $this->createAccessorConstantValue('constant value');
-        $function = $this->getMock(\YevgenGrytsay\Aggrecat\AggregateFunctionInterface::class);
+        $function = $this->getMock(\YevgenGrytsay\Aggrecat\ReduceFunction\ReduceFunctionInterface::class);
         $function->expects($this->at(0))
             ->method('__invoke')
             ->with('initial', 'constant value')
@@ -21,7 +21,7 @@ class CommonAggregateTest extends PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->with('result', 'constant value');
 
-        $agg = new \YevgenGrytsay\Aggrecat\CommonAggregate($accessor, $function, 'initial');
+        $agg = new \YevgenGrytsay\Aggrecat\ReduceAggregate($accessor, $function, 'initial');
 
         $agg->item([]);
         $agg->item([]);
@@ -30,11 +30,11 @@ class CommonAggregateTest extends PHPUnit_Framework_TestCase
     /**
      * @param $value
      *
-     * @return \YevgenGrytsay\Aggrecat\ConstantAccessInterface
+     * @return \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface
      */
     protected function createAccessorConstantValue($value)
     {
-        $accessor = $this->getMock(\YevgenGrytsay\Aggrecat\ConstantAccessInterface::class);
+        $accessor = $this->getMock(\YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface::class);
         $accessor->expects($this->any())
             ->method('getValue')
             ->willReturn($value);

@@ -5,15 +5,15 @@
  * Date: 11.10.2015
  * Time: 0:42
  */
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 
-$dealerAccess = new \YevgenGrytsay\Aggrecat\ConstantFieldAccess('dealer');
+$dealerAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('dealer');
 $partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerAccess);
 
-$priceAccess = new \YevgenGrytsay\Aggrecat\ConstantFieldAccess('price');
-$sum = new \YevgenGrytsay\Aggrecat\SumFunction();
-$sumAggregate = new  \YevgenGrytsay\Aggrecat\CommonAggregate($priceAccess, $sum, 0);
+$priceAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('price');
+$sum = new \YevgenGrytsay\Aggrecat\ReduceFunction\SumFunction();
+$sumAggregate = new  \YevgenGrytsay\Aggrecat\ReduceAggregate($priceAccess, $sum, 0);
 $factory = new \YevgenGrytsay\Aggrecat\AggregateFactory($sumAggregate);
 $priceAggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($factory, $partitionByDealer);
 

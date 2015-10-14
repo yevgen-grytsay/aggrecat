@@ -29,6 +29,6 @@ class AggregateFactory
      */
     public function create()
     {
-        return  clone $this->aggregate;
+        return clone $this->aggregate;
     }
 }

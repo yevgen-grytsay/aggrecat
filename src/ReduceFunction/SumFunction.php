@@ -4,10 +4,10 @@
  * @date: 11.10.2015
  */
 
-namespace YevgenGrytsay\Aggrecat;
+namespace YevgenGrytsay\Aggrecat\ReduceFunction;
 
 
-class SumFunction implements AggregateFunctionInterface
+class SumFunction implements ReduceFunctionInterface
 {
     /**
      * @param $carry

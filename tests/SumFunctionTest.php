@@ -10,7 +10,7 @@ class SumFunctionTest extends PHPUnit_Framework_TestCase
 {
     public function testShouldAdd()
     {
-        $sum = new \YevgenGrytsay\Aggrecat\SumFunction();
+        $sum = new \YevgenGrytsay\Aggrecat\ReduceFunction\SumFunction();
 
         $result = $sum->__invoke(0, 2);
 

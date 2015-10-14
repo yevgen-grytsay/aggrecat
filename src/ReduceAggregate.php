@@ -7,14 +7,17 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
-abstract class AggregateAbstract implements AggregateInterface
+use YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface;
+use YevgenGrytsay\Aggrecat\ReduceFunction\ReduceFunctionInterface;
+
+class ReduceAggregate implements AggregateInterface
 {
     /**
      * @var ConstantAccessInterface
      */
     protected $accessor;
     /**
-     * @var AggregateFunctionInterface
+     * @var ReduceFunctionInterface
      */
     protected $aggregateFunction;
     /**
@@ -26,10 +29,10 @@ abstract class AggregateAbstract implements AggregateInterface
      * DefaultAggregate constructor.
      *
      * @param ConstantAccessInterface $accessor
-     * @param AggregateFunctionInterface $aggregateFunction
+     * @param ReduceFunctionInterface $aggregateFunction
      * @param $initValue
      */
-    public function __construct(ConstantAccessInterface $accessor, AggregateFunctionInterface $aggregateFunction, $initValue)
+    public function __construct(ConstantAccessInterface $accessor, ReduceFunctionInterface $aggregateFunction, $initValue)
     {
         $this->accessor = $accessor;
         $this->aggregateFunction = $aggregateFunction;
@@ -49,5 +52,9 @@ abstract class AggregateAbstract implements AggregateInterface
      *
      * @return mixed
      */
-    abstract public function item($item);
+    public function item($item)
+    {
+        $value = $this->accessor->getValue($item);
+        $this->result = call_user_func_array($this->aggregateFunction, [$this->result, $value]);
+    }
 }

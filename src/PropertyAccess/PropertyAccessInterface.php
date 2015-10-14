@@ -4,15 +4,16 @@
  * @date: 11.10.2015
  */
 
-namespace YevgenGrytsay\Aggrecat;
+namespace YevgenGrytsay\Aggrecat\PropertyAccess;
 
 
-interface ConstantAccessInterface
+interface PropertyAccessInterface
 {
     /**
      * @param $objectOrArray
+     * @param $field
      *
      * @return mixed
      */
-    public function getValue($objectOrArray);
+    public function getValue($objectOrArray, $field);
 }

@@ -4,8 +4,10 @@
  * @date: 11.10.2015
  */
 
-namespace YevgenGrytsay\Aggrecat;
+namespace YevgenGrytsay\Aggrecat\PropertyAccess;
 
+
+use YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface;
 
 class ConstantFieldAccess implements ConstantAccessInterface
 {

@@ -6,7 +6,7 @@
  * Date: 11.10.2015
  * Time: 1:26
  */
-class AggregateFunctionMock implements \YevgenGrytsay\Aggrecat\AggregateFunctionInterface
+class AggregateFunctionMock implements \YevgenGrytsay\Aggrecat\ReduceFunction\ReduceFunctionInterface
 {
     /**
      * @var array

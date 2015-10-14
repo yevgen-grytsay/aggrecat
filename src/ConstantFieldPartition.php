@@ -7,6 +7,8 @@
 namespace YevgenGrytsay\Aggrecat;
 
 
+use YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface;
+
 class ConstantFieldPartition implements PartitionInterface
 {
     /**
