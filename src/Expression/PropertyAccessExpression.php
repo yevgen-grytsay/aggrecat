@@ -16,6 +16,7 @@ class PropertyAccessExpression implements ExpressionInterface
      * @param array $values
      *
      * @return mixed
+     * TODO: implement caching
      */
     public function evaluate($expression, $values = [])
     {
