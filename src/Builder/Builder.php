@@ -8,6 +8,8 @@ namespace YevgenGrytsay\Aggrecat\Builder;
 
 
 use YevgenGrytsay\Aggrecat\AggregateFunction\FunctionInterface;
+use YevgenGrytsay\Aggrecat\Expression\ConstantExpression;
+use YevgenGrytsay\Aggrecat\Expression\ConstantExpressionInterface;
 use YevgenGrytsay\Aggrecat\Expression\ExpressionInterface;
 use YevgenGrytsay\Aggrecat\PartitionInterface;
 
@@ -35,7 +37,7 @@ class Builder
     /**
      * @param string $name
      * @param FunctionInterface $function
-     * @param ExpressionInterface|string $expression
+     * @param ConstantExpressionInterface|string $expression
      * @param PartitionInterface|null $partition
      */
     public function addAggregate($name, FunctionInterface $function, $expression, PartitionInterface $partition = null)
@@ -44,10 +46,13 @@ class Builder
             throw new \RuntimeException(sprintf('Aggregate with name "%s" already exists.', $name));
         }
 
-        if (!$expression instanceof ExpressionInterface && !is_string($expression)) {
+        if (!$expression instanceof ConstantExpressionInterface && !is_string($expression)) {
             throw new \RuntimeException(sprintf(
                 'Wrong expression parameter type. Expected "%s" or "string", got "%s".',
                 ExpressionInterface::class, gettype($name)));
+        }
+        if (is_string($expression)) {
+            $expression = new ConstantExpression($expression, $this->expressionEngine);
         }
 
         $this->aggregateMap[$name] = [$function, $expression, $partition];
@@ -66,13 +71,10 @@ class Builder
                 /**
                  * @var PartitionInterface $partition
                  * @var FunctionInterface $function
+                 * @var ConstantExpressionInterface $expression
                  */
                 list (, $expression, $partition) = $aggregate;
-                if ($expression instanceof ExpressionInterface) {
-                    $value = $expression->evaluate($expression, $item);
-                } else {
-                    $value = $this->expressionEngine->evaluate($expression, $item);
-                }
+                $value = $expression->evaluate($item);
                 if ($partition) {
                     $key = $partition->partition($item);
                     if (!array_key_exists($key, $collected[$name])) {

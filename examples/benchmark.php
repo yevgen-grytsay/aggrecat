@@ -9,7 +9,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 /**
  * Test data
  */
-$itemNumber = 100000;
+$itemNumber = 1000;
 $faker = \Faker\Factory::create();
 $data = new ArrayObject();
 foreach (range(1, $itemNumber) as $i) {
