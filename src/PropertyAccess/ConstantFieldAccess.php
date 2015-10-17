@@ -7,8 +7,6 @@
 namespace YevgenGrytsay\Aggrecat\PropertyAccess;
 
 
-use YevgenGrytsay\Aggrecat\PropertyAccess\ConstantAccessInterface;
-
 class ConstantFieldAccess implements ConstantAccessInterface
 {
     /**
