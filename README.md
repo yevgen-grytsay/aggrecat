@@ -42,6 +42,5 @@ array(2) {
 ```
 
 ## TODO:
-* Add adapter for Symfony Property Access.
 * Create builder to hide annoyingly long initialization behind usable interface.
 * Review Visitor interface and usage.
