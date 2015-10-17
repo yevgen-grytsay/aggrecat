@@ -7,15 +7,8 @@
  */
 require_once __DIR__.'/../vendor/autoload.php';
 
-
-$dealerAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('dealer');
-$partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerAccess);
-
-$priceAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('price');
-$sum = new \YevgenGrytsay\Aggrecat\ReduceFunction\SumFunction();
-$sumAggregate = new  \YevgenGrytsay\Aggrecat\ReduceAggregate($priceAccess, $sum, 0);
-$factory = new \YevgenGrytsay\Aggrecat\AggregateFactory($sumAggregate);
-$priceAggregate = new \YevgenGrytsay\Aggrecat\PartitionAggregate($factory, $partitionByDealer);
+$accessEngine = new \YevgenGrytsay\Aggrecat\Expression\PropertyAccessExpression();
+$b = new \YevgenGrytsay\Aggrecat\Builder\Builder($accessEngine);
 
 $data = new ArrayObject(array(
     array('id' => 1, 'dealer' => 4, 'name' => 'Rainbow', 'price' => 10),
@@ -23,9 +16,11 @@ $data = new ArrayObject(array(
     array('id' => 3, 'dealer' => 2, 'name' => 'Raven', 'price' => 100),
     array('id' => 4, 'dealer' => 2, 'name' => 'Shield', 'price' => 200),
 ));
-$visitor = new \YevgenGrytsay\Aggrecat\IteratorVisitor();
-$aggVisitor = new \YevgenGrytsay\Aggrecat\AggregateVisitor($priceAggregate);
-$visitor->accept($data->getIterator(), $aggVisitor);
 
-$result = $priceAggregate->getResult();
+$function = new \YevgenGrytsay\Aggrecat\AggregateFunction\AverageFunction();
+$dealerAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('dealer');
+$partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerAccess);
+$b->addAggregate('avg_price_by_dealer', $function, 'price', $partitionByDealer);
+$result = $b->run($data->getIterator());
+
 var_dump($result);

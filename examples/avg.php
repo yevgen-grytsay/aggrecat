@@ -18,9 +18,6 @@ $data = new ArrayObject(array(
 $function = new \YevgenGrytsay\Aggrecat\AggregateFunction\AverageFunction();
 $b->addAggregate('avg_price', $function, 'price');
 
-$dealerAccess = new \YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess('dealer');
-$partitionByDealer = new \YevgenGrytsay\Aggrecat\ConstantFieldPartition($dealerAccess);
-$b->addAggregate('avg_price_by_dealer', $function, 'price', $partitionByDealer);
 $result = $b->run($data->getIterator());
 
 var_dump($result);
