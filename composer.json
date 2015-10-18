@@ -1,8 +1,9 @@
 {
   "name": "yevgen-grytsay/aggrecat",
-  "description": "Apply aggregation function to a collection.",
-  "minimum-stability": "stable",
-  "license": "proprietary",
+  "description": "Apply various group (aggregate) functions (sum, avg etc.) to a collection",
+  "keywords": ["aggregating"],
+  "type": "library",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Yevgen Grytsay",
