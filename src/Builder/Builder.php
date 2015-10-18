@@ -48,10 +48,6 @@ class Builder
      */
     public function addAggregate($name, $function, $expression, PartitionInterface $partition = null)
     {
-        if (array_key_exists($name, $this->aggregateMap)) {
-            throw new \RuntimeException(sprintf('Aggregate with name "%s" already exists.', $name));
-        }
-
         if (!$expression instanceof ConstantExpressionInterface && !is_string($expression)) {
             throw new \RuntimeException(sprintf(
                 'Wrong expression parameter type. Expected "%s" or "string", got "%s".',
@@ -73,7 +69,19 @@ class Builder
             $function = $this->functionProvider->getFunction($function);
         }
 
-        $this->aggregateMap[$name] = new BuilderAggregate($expression, $function, $partition);
+        $this->addAggregateObject($name, new BuilderAggregate($expression, $function, $partition));
+    }
+
+    /**
+     * @param $name
+     * @param BuilderAggregate $aggregate
+     */
+    public function addAggregateObject($name, BuilderAggregate $aggregate)
+    {
+        if (array_key_exists($name, $this->aggregateMap)) {
+            throw new \RuntimeException(sprintf('Aggregate with name "%s" already exists.', $name));
+        }
+        $this->aggregateMap[$name] = $aggregate;
     }
 
     /**
