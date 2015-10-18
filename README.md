@@ -2,17 +2,18 @@
 Small and extensible data aggregation library.
 
 ## Short usage example
-Calculate sum of "price" field values and group by "dealer" field.
+* Calculate average value of "price" field.
+* Calculate average value of expression 'price * quantity' for each row and group by "dealer" field.
 ```php
 $language = new \Symfony\Component\ExpressionLanguage\ExpressionLanguage();
 $expressionEngine = new \YevgenGrytsay\Aggrecat\Expression\SymfonyAdapter($language);
 $b = new \YevgenGrytsay\Aggrecat\Builder\Builder($expressionEngine);
 
 $data = new ArrayObject(array(
-    array('id' => 1, 'dealer' => 4, 'name' => 'Rainbow', 'price' => 10, 'quantity' => 10),
-    array('id' => 2, 'dealer' => 4, 'name' => 'Six', 'price' => 20, 'quantity' => 15),
-    array('id' => 3, 'dealer' => 2, 'name' => 'Raven', 'price' => 100, 'quantity' => 70),
-    array('id' => 4, 'dealer' => 2, 'name' => 'Shield', 'price' => 200, 'quantity' => 5),
+    array('dealer' => 4, 'price' => 10, 'quantity' => 10),
+    array('dealer' => 4, 'price' => 20, 'quantity' => 15),
+    array('dealer' => 2, 'price' => 100, 'quantity' => 70),
+    array('dealer' => 2, 'price' => 200, 'quantity' => 5),
 ));
 
 $function = new \YevgenGrytsay\Aggrecat\AggregateFunction\AverageFunction();
@@ -40,7 +41,3 @@ array(2) {
   }
 }
 ```
-
-## TODO:
-* Create builder to hide annoyingly long initialization behind usable interface.
-* Review Visitor interface and usage.
