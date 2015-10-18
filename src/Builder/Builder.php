@@ -23,24 +23,30 @@ class Builder
      * @var ExpressionInterface
      */
     protected $expressionEngine;
+    /**
+     * @var FunctionProvider
+     */
+    protected $functionProvider;
 
     /**
      * Builder constructor.
      *
      * @param ExpressionInterface $expressionEngine
+     * @param FunctionProvider $provider
      */
-    public function __construct(ExpressionInterface $expressionEngine)
+    public function __construct(ExpressionInterface $expressionEngine, FunctionProvider $provider = null)
     {
         $this->expressionEngine = $expressionEngine;
+        $this->functionProvider = $provider;
     }
 
     /**
      * @param string $name
-     * @param FunctionInterface $function
+     * @param FunctionInterface|string $function
      * @param ConstantExpressionInterface|string $expression
      * @param PartitionInterface|null $partition
      */
-    public function addAggregate($name, FunctionInterface $function, $expression, PartitionInterface $partition = null)
+    public function addAggregate($name, $function, $expression, PartitionInterface $partition = null)
     {
         if (array_key_exists($name, $this->aggregateMap)) {
             throw new \RuntimeException(sprintf('Aggregate with name "%s" already exists.', $name));
@@ -53,6 +59,18 @@ class Builder
         }
         if (is_string($expression)) {
             $expression = new ConstantExpression($expression, $this->expressionEngine);
+        }
+
+        if (!$function instanceof FunctionInterface && !is_string($function)) {
+            throw new \RuntimeException(sprintf(
+                'Wrong function parameter type. Expected "%s" or "string", got "%s".',
+                FunctionInterface::class, gettype($name)));
+        }
+        if (is_string($function) && !$this->functionProvider) {
+            throw new \RuntimeException('Function provider must be specified in order to use function aliases.');
+        }
+        if (is_string($function)) {
+            $function = $this->functionProvider->getFunction($function);
         }
 
         $this->aggregateMap[$name] = new BuilderAggregate($expression, $function, $partition);
