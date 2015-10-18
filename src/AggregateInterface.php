@@ -10,14 +10,9 @@ namespace YevgenGrytsay\Aggrecat;
 interface AggregateInterface
 {
     /**
-     * @param $item
+     * @param array $data
      *
      * @return mixed
      */
-    public function item($item);
-
-    /**
-     * @return mixed
-     */
-    public function getResult();
+    public function aggregate(array $data = []);
 }

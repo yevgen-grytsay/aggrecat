@@ -55,7 +55,7 @@ class Builder
             $expression = new ConstantExpression($expression, $this->expressionEngine);
         }
 
-        $this->aggregateMap[$name] = [$function, $expression, $partition];
+        $this->aggregateMap[$name] = new BuilderAggregate($expression, $function, $partition);
     }
 
     /**
@@ -67,38 +67,22 @@ class Builder
     {
         $collected = array_fill_keys(array_keys($this->aggregateMap), []);
         foreach ($data as $item) {
+            /**
+             * @var string $name
+             * @var BuilderAggregate $aggregate
+             */
             foreach ($this->aggregateMap as $name => $aggregate) {
-                /**
-                 * @var PartitionInterface $partition
-                 * @var FunctionInterface $function
-                 * @var ConstantExpressionInterface $expression
-                 */
-                list (, $expression, $partition) = $aggregate;
-                $value = $expression->evaluate($item);
-                if ($partition) {
-                    $key = $partition->partition($item);
-                    if (!array_key_exists($key, $collected[$name])) {
-                        $collected[$name][$key] = [];
-                    }
-                    $collected[$name][$key][] = $value;
-                } else {
-                    $collected[$name][] = $value;
-                }
+                $aggregate->addValue($collected[$name], $item);
             }
-
         }
 
         $aggregateResult = array_fill_keys(array_keys($this->aggregateMap), null);
+        /**
+         * @var string $name
+         * @var BuilderAggregate $aggregate
+         */
         foreach ($this->aggregateMap as $name => $aggregate) {
-            list ($function,,$partition) = $aggregate;
-            if ($partition) {
-                $aggregateResult[$name] = [];
-                foreach ($collected[$name] as $key => $collectedPart) {
-                    $aggregateResult[$name][$key] = call_user_func($function, $collectedPart);
-                }
-            } else {
-                $aggregateResult[$name] = call_user_func($function, $collected[$name]);
-            }
+            $aggregateResult[$name] = $aggregate->aggregate($collected[$name]);
         }
 
         return $aggregateResult;
