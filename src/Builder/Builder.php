@@ -41,10 +41,12 @@ class Builder
     }
 
     /**
-     * @param string $name
-     * @param FunctionInterface|string $function
+     * @param string                             $name
+     * @param FunctionInterface|string           $function
      * @param ConstantExpressionInterface|string $expression
-     * @param PartitionInterface|null $partition
+     * @param PartitionInterface|null            $partition
+     *
+     * @throws \RuntimeException
      */
     public function addAggregate($name, $function, $expression, PartitionInterface $partition = null)
     {
@@ -73,8 +75,10 @@ class Builder
     }
 
     /**
-     * @param $name
+     * @param                  $name
      * @param BuilderAggregate $aggregate
+     *
+     * @throws \RuntimeException
      */
     public function addAggregateObject($name, BuilderAggregate $aggregate)
     {

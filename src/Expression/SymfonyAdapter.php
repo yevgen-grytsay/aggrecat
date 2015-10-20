@@ -32,7 +32,7 @@ class SymfonyAdapter implements ExpressionInterface
      *
      * @return string
      */
-    public function evaluate($expression, $values = [])
+    public function evaluate($expression, array $values = [])
     {
         return $this->language->evaluate($expression, $values);
     }

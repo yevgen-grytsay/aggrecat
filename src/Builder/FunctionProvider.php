@@ -28,9 +28,11 @@ class FunctionProvider
     }
 
     /**
-     * @param $alias
+     * @param                   $alias
      * @param FunctionInterface $function
-     * @param bool|false $override
+     * @param bool|false        $override
+     *
+     * @throws \RuntimeException
      */
     public function addFunction($alias, FunctionInterface $function, $override = false)
     {
@@ -44,6 +46,7 @@ class FunctionProvider
      * @param $alias
      *
      * @return FunctionInterface
+     * @throws \RuntimeException
      */
     public function getFunction($alias)
     {

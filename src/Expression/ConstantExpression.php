@@ -40,7 +40,7 @@ class ConstantExpression implements ConstantExpressionInterface
      *
      * @return mixed
      */
-    public function evaluate($values = [])
+    public function evaluate(array $values = [])
     {
         return $this->engine->evaluate($this->expression, $values);
     }

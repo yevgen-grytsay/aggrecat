@@ -14,5 +14,5 @@ interface ConstantExpressionInterface
      *
      * @return mixed
      */
-    public function evaluate($values = []);
+    public function evaluate(array $values = []);
 }

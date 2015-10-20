@@ -11,5 +11,5 @@ interface ExpressionInterface
 {
 //    public function compile($expression);
 
-    public function evaluate($expression, $values = []);
+    public function evaluate($expression, array $values = []);
 }

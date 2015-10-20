@@ -31,9 +31,14 @@ class SymfonyAdapter implements PropertyAccessInterface
      * @param $field
      *
      * @return mixed
+     * @throws \RuntimeException
      */
     public function getValue($objectOrArray, $field)
     {
-        return $this->accessor->getValue($objectOrArray, $field);
+        try {
+            return $this->accessor->getValue($objectOrArray, $field);
+        } catch (\Exception $e) {
+            throw new \RuntimeException(sprintf('Can not get value of field "%s"', $field), 0, $e);
+        }
     }
 }

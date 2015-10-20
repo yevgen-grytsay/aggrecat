@@ -18,7 +18,7 @@ class PropertyAccessExpression implements ExpressionInterface
      * @return mixed
      * TODO: implement caching
      */
-    public function evaluate($expression, $values = [])
+    public function evaluate($expression, array $values = [])
     {
         $accessor = new ConstantFieldAccess($expression);
 

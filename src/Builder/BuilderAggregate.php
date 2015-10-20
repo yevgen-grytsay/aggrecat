@@ -23,7 +23,7 @@ class BuilderAggregate
     /**
      * @var AggregateInterface
      */
-    protected $aggregate;
+    protected $aggregator;
     /**
      * @var PartitionInterface|null
      */
@@ -33,17 +33,17 @@ class BuilderAggregate
      * Aggregate constructor.
      *
      * @param ConstantExpressionInterface $expression
-     * @param FunctionInterface $function
-     * @param null|PartitionInterface $partition
+     * @param FunctionInterface           $function
+     * @param null|PartitionInterface     $partition
      */
     public function __construct(ConstantExpressionInterface $expression, FunctionInterface $function, PartitionInterface $partition = null)
     {
         $this->expression = $expression;
         $this->partition = $partition;
         if ($partition) {
-            $this->aggregate = new PartitionedAggregate($function);
+            $this->aggregator = new PartitionedAggregate($function);
         } else {
-            $this->aggregate = new Aggregate($function);
+            $this->aggregator = new Aggregate($function);
         }
     }
 
@@ -56,7 +56,7 @@ class BuilderAggregate
         $value = $this->expression->evaluate($item);
         if ($this->partition) {
             $key = $this->partition->partition($item);
-            if (!array_key_exists($key, $collection)) {
+            if (!isset($collection[$key])) {
                 $collection[$key] = [];
             }
             $collection[$key][] = $value;
@@ -72,6 +72,6 @@ class BuilderAggregate
      */
     public function aggregate($collection)
     {
-        return $this->aggregate->aggregate($collection);
+        return $this->aggregator->aggregate($collection);
     }
 }
