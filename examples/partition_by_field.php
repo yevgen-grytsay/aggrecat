@@ -1,9 +1,10 @@
-# aggrecat
-Small and extensible data aggregation library.
-
-## Short usage example
-Calculate sum of "price" field values and group by "dealer" field.
-```php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Yevgen
+ * Date: 11.10.2015
+ * Time: 0:42
+ */
 use YevgenGrytsay\Aggrecat\AggregateFactory;
 use YevgenGrytsay\Aggrecat\AggregateVisitor;
 use YevgenGrytsay\Aggrecat\ConstantFieldPartition;
@@ -13,7 +14,7 @@ use YevgenGrytsay\Aggrecat\PropertyAccess\ConstantFieldAccess;
 use YevgenGrytsay\Aggrecat\ReduceAggregate;
 use YevgenGrytsay\Aggrecat\ReduceFunction\SumFunction;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Setup data
@@ -45,21 +46,3 @@ $aggVisitor = new AggregateVisitor($priceAggregate);
 $visitor->accept($data->getIterator(), $aggVisitor);
 $result = $priceAggregate->getResult();
 var_dump($result);
-```
-
-Result:
-```
-array(2) {
-    [4] =>
-        int(30)
-    [2] =>
-        int(300)
-}
-```
-
-More examples can be found in ``examples`` directory.
-
-## TODO:
-* Add adapter for Symfony Property Access.
-* Create builder to hide annoyingly long initialization behind usable interface.
-* Review Visitor interface and usage.

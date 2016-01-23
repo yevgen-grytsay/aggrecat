@@ -15,15 +15,25 @@ class ConstantFieldPartition implements PartitionInterface
      * @var ConstantAccessInterface
      */
     protected $accessor;
+    /**
+     * @var callable/\Closure
+     */
+    private $transformer;
 
     /**
      * PartitionByField constructor.
      *
      * @param ConstantAccessInterface $accessor
+     * @param callable $transformer
+     * @throws \RuntimeException
      */
-    public function __construct(ConstantAccessInterface $accessor)
+    public function __construct(ConstantAccessInterface $accessor, $transformer = null)
     {
+        if($transformer !== null && !is_callable($transformer)) {
+            throw new \RuntimeException('Transformer must be callable.');
+        }
         $this->accessor = $accessor;
+        $this->transformer = $transformer;
     }
 
     /**
@@ -33,6 +43,22 @@ class ConstantFieldPartition implements PartitionInterface
      */
     public function partition($item)
     {
-        return $this->accessor->getValue($item);
+        $value = $this->accessor->getValue($item);
+        $value = $this->transform($value);
+
+        return $value;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    private function transform($value)
+    {
+        if ($this->transformer) {
+            $value = call_user_func_array($this->transformer, [$value]);
+        }
+
+        return $value;
     }
 }
