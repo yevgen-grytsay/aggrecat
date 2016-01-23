@@ -11,7 +11,7 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-script: vendor/bin/phpunit --configuration ./tests/phpunit.xml --coverage-text --verbose
+script: vendor/bin/phpunit --configuration ./phpunit.xml --coverage-text --verbose
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer install --prefer-dist --no-interaction
